@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kerala Government Calendar 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600&family=Noto+Serif+Malayalam:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- PDF_URL will be set below — points to GitHub Release asset -->
+<script>
+  // ← This URL is updated automatically after GitHub Release is created
+  const PDF_URL = "REPLACE_WITH_PDF_URL";
+</script>
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: #020c1b;
+  color: #e8f4ff;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BACKGROUND
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 0%,   rgba(0,48,135,0.35) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 90% 100%,  rgba(0,102,51,0.22) 0%, transparent 60%),
+    #020c1b;
+}
+.grid-lines {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,48,135,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,48,135,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.particle  { position: absolute; border-radius: 50%; animation: rise linear infinite; }
+@keyframes rise {
+  0%   { transform: translateY(100vh); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LAYOUT SHELL  —  header + main stacked, 100vh
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#shell {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column;
+  height: 100vh; width: 100%;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HEADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+header {
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #001435 0%, #002055 100%);
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, transparent, #D4A017 20%, #F5C842 50%, #D4A017 80%, transparent) 1;
+  padding: 0 20px;
+  display: flex; align-items: center;
+  gap: 16px;
+  height: 68px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+/* Left — emblem + text */
+.hd-left { display: flex; align-items: center; gap: 14px; }
+
+.emblem {
+  width: 46px; height: 46px; flex-shrink: 0;
+  filter: drop-shadow(0 0 12px rgba(212,160,23,0.55));
+  animation: glow 3.5s ease-in-out infinite;
+}
+@keyframes glow {
+  0%,100% { filter: drop-shadow(0 0 10px rgba(212,160,23,0.5)); }
+  50%      { filter: drop-shadow(0 0 22px rgba(212,160,23,0.9)); }
+}
+
+.hd-text {}
+.hd-en {
+  font-family: 'Cinzel', serif;
+  font-size: 17px; font-weight: 700; letter-spacing: 1.5px;
+  background: linear-gradient(135deg, #fff 0%, #F5C842 60%, #D4A017 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1.1;
+}
+.hd-ml {
+  font-family: 'Noto Serif Malayalam', serif;
+  font-size: 11px; color: rgba(212,160,23,0.7); margin-top: 1px;
+}
+
+/* Separator */
+.hd-sep {
+  width: 1px; height: 36px; margin: 0 4px;
+  background: linear-gradient(180deg, transparent, rgba(212,160,23,0.4), transparent);
+}
+
+/* Center — tricolor + year */
+.hd-center { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.tricolor { width: 80px; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, #FF6B00 33.3%, #fff 33.3% 66.6%, #006633 66.6%); }
+.year-pill {
+  background: linear-gradient(135deg, #003087, #001a50);
+  border: 1px solid rgba(212,160,23,0.45);
+  border-radius: 100px;
+  padding: 2px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 3px;
+  color: #F5C842;
+  box-shadow: 0 0 16px rgba(212,160,23,0.15) inset;
+}
+
+/* Right spacer */
+.hd-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.hd-dept {
+  font-size: 10px; color: rgba(255,255,255,0.3);
+  letter-spacing: 1px; text-align: right; line-height: 1.6;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOOLBAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#toolbar {
+  flex-shrink: 0;
+  display: none; /* shown after load */
+  align-items: center; gap: 8px;
+  background: #05111f;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 7px 16px;
+  flex-wrap: nowrap;
+  height: 48px;
+}
+
+/* Kerala rainbow stripe on toolbar top */
+#toolbar::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg,
+    #FF6B00 0 10%, #D4A017 10 20%, #F5C842 20 30%,
+    #fff 30 40%, #006633 40 50%, #009A4E 50 60%,
+    #fff 60 70%, #F5C842 70 80%, #D4A017 80 90%, #FF6B00 90 100%
+  );
+}
+#toolbar { position: relative; }
+
+.tb-btn {
+  height: 32px; min-width: 32px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: #c0d8f0; font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; padding: 0 10px;
+  white-space: nowrap;
+}
+.tb-btn:hover:not(:disabled) {
+  background: rgba(212,160,23,0.12);
+  border-color: rgba(212,160,23,0.4);
+  color: #F5C842;
+}
+.tb-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.tb-btn.large { height: 36px; min-width: 36px; font-size: 20px; }
+
+.tb-sep { width: 1px; height: 24px; background: rgba(255,255,255,0.08); margin: 0 2px; flex-shrink: 0; }
+.tb-spacer { flex: 1; }
+
+.pg-wrap { display: flex; align-items: center; gap: 6px; }
+.pg-in {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px; color: #F5C842;
+  font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px;
+  padding: 3px 6px; width: 46px; text-align: center;
+  outline: none; transition: border-color 0.2s;
+}
+.pg-in:focus { border-color: rgba(212,160,23,0.5); }
+.pg-of { font-size: 12px; color: #4a6a8a; }
+
+.zoom-lbl { font-size: 11px; color: #4a6a8a; min-width: 38px; text-align: center; letter-spacing: 1px; }
+
+.month-chip {
+  background: linear-gradient(135deg, rgba(0,48,135,0.7), rgba(0,26,64,0.9));
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 100px;
+  padding: 3px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px; letter-spacing: 1.5px; color: #FFF0B3;
+  white-space: nowrap;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CANVAS AREA  —  flex:1, scrollable
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#viewer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse 70% 80% at 50% 40%, #081a30 0%, #020c1b 100%);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,160,23,0.3) transparent;
+}
+#viewer::-webkit-scrollbar { width: 6px; }
+#viewer::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.3); border-radius: 3px; }
+
+/* Corner accents */
+.corner { position: sticky; pointer-events: none; z-index: 5; }
+.corner-tl { top: 0; left: 0; width: 50px; height: 50px; border-top: 2px solid rgba(212,160,23,0.25); border-left: 2px solid rgba(212,160,23,0.25); border-radius: 0 0 8px 0; position: absolute; }
+.corner-tr { top: 0; right: 0; width: 50px; height: 50px; border-top: 2px solid rgba(212,160,23,0.25); border-right: 2px solid rgba(212,160,23,0.25); border-radius: 0 0 0 8px; position: absolute; }
+
+/* Page slots */
+.page-slot {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 20px;
+  will-change: transform, opacity;
+  min-height: 100%;
+}
+.page-slot canvas {
+  display: block;
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 8px 40px rgba(0,0,0,0.6),
+    0 0 60px rgba(0,48,135,0.1);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Slide animations */
+.enter-r  { transform: translateX(105%); }
+.enter-l  { transform: translateX(-105%); }
+.active   { transform: translateX(0); transition: transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+.leave-l  { transform: translateX(-105%); transition: transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+.leave-r  { transform: translateX(105%); transition: transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+
+/* Shimmer */
+.shimmer {
+  position: absolute; inset: 0; z-index: 10; pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgba(212,160,23,0.06) 48%, rgba(255,240,179,0.12) 50%, rgba(212,160,23,0.06) 52%, transparent 70%);
+  opacity: 0;
+}
+.shimmer.go { animation: shim 0.65s ease-out forwards; }
+@keyframes shim {
+  0%   { opacity: 0; transform: translateX(-110%); }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(110%); }
+}
+
+/* Loader */
+#loader {
+  position: absolute; inset: 0; z-index: 30;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  background: rgba(2,12,27,0.88); backdrop-filter: blur(12px);
+}
+.ring-wrap { width: 70px; height: 70px; position: relative; }
+.ring1 {
+  position: absolute; inset: 0;
+  border: 2px solid rgba(255,255,255,0.05);
+  border-top-color: #D4A017; border-right-color: #00E676;
+  border-radius: 50%; animation: spin 0.85s linear infinite;
+}
+.ring2 {
+  position: absolute; top: 12px; left: 12px; right: 12px; bottom: 12px;
+  border: 2px solid rgba(255,255,255,0.05);
+  border-bottom-color: rgba(212,160,23,0.4);
+  border-radius: 50%; animation: spin 1.4s linear infinite reverse;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.ld-text { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 3px; color: #4a6a8a; }
+.ld-ml   { font-family: 'Noto Serif Malayalam', serif; font-size: 12px; color: #2a4a6a; }
+
+/* Drop splash (while no PDF loaded — shouldn't show with embedded PDF) */
+#splash {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px;
+  text-align: center; padding: 40px;
+}
+.splash-lotus { font-size: 64px; animation: bob 3.5s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.splash-title { font-family: 'Cinzel', serif; font-size: 22px; color: #F5C842; }
+.splash-sub   { font-size: 13px; color: #4a6a8a; line-height: 1.7; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THUMBNAIL STRIP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#thumbs {
+  flex-shrink: 0;
+  display: none;
+  align-items: center; gap: 8px;
+  padding: 8px 14px;
+  background: #030d1a;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,160,23,0.25) transparent;
+  height: 98px;
+}
+#thumbs::-webkit-scrollbar { height: 3px; }
+#thumbs::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.25); border-radius: 2px; }
+
+.thumb {
+  flex-shrink: 0; width: 64px; cursor: pointer;
+  border-radius: 4px; overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.06);
+  transition: all 0.2s; position: relative;
+}
+.thumb:hover { border-color: rgba(212,160,23,0.45); transform: scale(1.05); }
+.thumb.on    { border-color: #D4A017; box-shadow: 0 0 14px rgba(212,160,23,0.35); transform: scale(1.08); }
+.thumb canvas { width: 100%; display: block; }
+.thumb-n {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  text-align: center; font-size: 9px; padding: 3px 0 2px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  color: rgba(255,255,255,0.4);
+}
+.thumb.on .thumb-n { color: #F5C842; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STATUS BAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#statusbar {
+  flex-shrink: 0;
+  display: none;
+  align-items: center; justify-content: space-between;
+  padding: 5px 16px;
+  background: #020c1b;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  font-size: 10px; color: #2a4060; letter-spacing: 1px;
+  flex-wrap: wrap; gap: 6px;
+  height: 28px;
+}
+.sb-live { display: flex; align-items: center; gap: 5px; color: rgba(0,230,118,0.55); }
+.sb-dot  { width: 5px; height: 5px; border-radius: 50%; background: #00E676; box-shadow: 0 0 6px #00E676; animation: bl 2s infinite; }
+@keyframes bl { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* key hints in statusbar */
+.sb-keys { display: flex; gap: 12px; align-items: center; }
+.kb { display: flex; align-items: center; gap: 4px; }
+kbd {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 3px; padding: 0 5px; font-family: inherit; font-size: 9px; color: #3a5a7a;
+}
+</style>
+</head>
+<body>
+
+<!-- Bg -->
+<div class="bg"></div>
+<div class="grid-lines"></div>
+<div class="particles" id="pts"></div>
+
+<!-- ═══════════════════════ SHELL ═══════════════════════ -->
+<div id="shell">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="hd-left">
+      <!-- Kerala State Emblem -->
+      <svg class="emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 L90 20 L90 62 Q90 82 50 96 Q10 82 10 62 L10 20 Z" fill="rgba(212,160,23,0.08)" stroke="#D4A017" stroke-width="1.5"/>
+        <path d="M50 13 L83 26 L83 60 Q83 77 50 89 Q17 77 17 60 L17 26 Z" fill="rgba(0,33,71,0.55)" stroke="rgba(212,160,23,0.35)" stroke-width="0.8"/>
+        <!-- Left elephant -->
+        <ellipse cx="31" cy="53" rx="10" ry="13" fill="rgba(212,160,23,0.12)" stroke="#D4A017" stroke-width="0.9"/>
+        <path d="M24 62 Q18 70 21 74" stroke="#F5C842" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M29 43 Q21 31 26 23" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="26" cy="22" r="2" fill="#D4A017" opacity="0.8"/>
+        <!-- Right elephant -->
+        <ellipse cx="69" cy="53" rx="10" ry="13" fill="rgba(212,160,23,0.12)" stroke="#D4A017" stroke-width="0.9"/>
+        <path d="M76 62 Q82 70 79 74" stroke="#F5C842" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M71 43 Q79 31 74 23" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="74" cy="22" r="2" fill="#D4A017" opacity="0.8"/>
+        <!-- Conch -->
+        <ellipse cx="50" cy="51" rx="8" ry="10" fill="rgba(255,255,255,0.06)" stroke="#D4A017" stroke-width="1"/>
+        <path d="M44 51 Q50 43 56 51 Q50 59 44 51" stroke="#D4A017" stroke-width="0.7" fill="rgba(212,160,23,0.08)"/>
+        <circle cx="50" cy="51" r="3" fill="rgba(212,160,23,0.35)" stroke="#D4A017" stroke-width="0.5"/>
+        <!-- Crown -->
+        <path d="M42 35 L46 27 L50 31 L54 27 L58 35 L50 33 Z" fill="#D4A017" opacity="0.85"/>
+        <!-- Ribbon -->
+        <path d="M30 79 Q50 89 70 79" stroke="#D4A017" stroke-width="1" fill="rgba(212,160,23,0.08)"/>
+        <circle cx="50" cy="50" r="46" stroke="rgba(212,160,23,0.12)" stroke-width="0.5" stroke-dasharray="4 4" fill="none"/>
+      </svg>
+
+      <div class="hd-text">
+        <div class="hd-en">Government of Kerala</div>
+        <div class="hd-ml">ഗവൺമെന്റ് ഓഫ് കേരള · Kerala Government Calendar</div>
+      </div>
+    </div>
+
+    <div class="hd-sep"></div>
+
+    <div class="hd-center">
+      <div class="year-pill">2027</div>
+      <div class="tricolor"></div>
+    </div>
+
+    <div class="hd-right">
+      <div class="hd-dept">
+        Dept. of Printing, Stationery &amp; Gazetteers<br/>
+        Official Annual Calendar
+      </div>
+    </div>
+  </header>
+
+  <!-- ── TOOLBAR ── -->
+  <div id="toolbar">
+    <!-- Zoom -->
+    <button class="tb-btn" id="btnZoomOut" title="Zoom Out">−</button>
+    <span class="zoom-lbl" id="zoomLbl">100%</span>
+    <button class="tb-btn" id="btnZoomIn"  title="Zoom In">+</button>
+    <button class="tb-btn" id="btnFit" style="font-size:10px;letter-spacing:1px;">FIT</button>
+
+    <div class="tb-sep"></div>
+
+    <!-- Nav -->
+    <button class="tb-btn large" id="btnPrev" title="Previous (←)">‹</button>
+    <div class="pg-wrap">
+      <input class="pg-in" id="pgIn" type="number" min="1" value="1"/>
+      <span class="pg-of">/ <span id="pgTot">—</span></span>
+    </div>
+    <button class="tb-btn large" id="btnNext" title="Next (→)">›</button>
+
+    <div class="tb-sep"></div>
+
+    <!-- Month chip -->
+    <div class="month-chip" id="mchip">KERALA CALENDAR 2027</div>
+
+    <div class="tb-spacer"></div>
+
+    <!-- Fullscreen -->
+    <button class="tb-btn" id="btnFs" title="Fullscreen (F)">⛶</button>
+  </div>
+
+  <!-- ── VIEWER ── -->
+  <div id="viewer">
+    <div class="corner-tl"></div>
+    <div class="corner-tr"></div>
+    <div class="shimmer" id="shimmer"></div>
+
+    <!-- Splash shown until PDF loads -->
+    <div id="splash">
+      <div class="splash-lotus">🪷</div>
+      <div class="splash-title">Kerala Government Calendar 2027</div>
+      <p class="splash-sub">ഗവൺമെന്റ് ഓഫ് കേരള · Opening calendar…</p>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" style="display:none;">
+      <div class="ring-wrap"><div class="ring1"></div><div class="ring2"></div></div>
+      <div class="ld-text">LOADING CALENDAR</div>
+      <div class="ld-ml">കലണ്ടർ ലോഡ് ചെയ്യുന്നു…</div>
+    </div>
+    <!-- page slots injected by JS -->
+  </div>
+
+  <!-- ── THUMBNAILS ── -->
+  <div id="thumbs"></div>
+
+  <!-- ── STATUS BAR ── -->
+  <div id="statusbar">
+    <div class="sb-live"><span class="sb-dot"></span> PDF Rendered Locally</div>
+    <span id="sbTxt">Kerala Government Calendar 2027</span>
+    <div class="sb-keys">
+      <div class="kb"><kbd>←</kbd>Prev</div>
+      <div class="kb"><kbd>→</kbd>Next</div>
+      <div class="kb"><kbd>+</kbd>Zoom</div>
+      <div class="kb"><kbd>F</kbd>Fullscreen</div>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+/* ── Particles ── */
+(function() {
+  const w = document.getElementById('pts');
+  const c = ['rgba(212,160,23,.3)','rgba(0,154,78,.2)','rgba(0,48,135,.3)','rgba(255,255,255,.12)'];
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement('div'); p.className = 'particle';
+    const s = Math.random() * 3 + 1;
+    p.style.cssText = `width:${s}px;height:${s}px;background:${c[i%4]};left:${Math.random()*100}%;animation-duration:${14+Math.random()*18}s;animation-delay:${Math.random()*-20}s;`;
+    w.appendChild(p);
+  }
+})();
+
+/* ── State ── */
+let pdf = null, cur = 1, tot = 0, sc = 1.4, busy = false;
+const BASE = 1.4;
+const MO   = ['','JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE',
+               'JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+const MO_ML = ['','ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മേയ്','ജൂൺ',
+               'ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്‌ടോബർ','നവംബർ','ഡിസംബർ'];
+
+/* ── Elements ── */
+const viewer   = document.getElementById('viewer');
+const toolbar  = document.getElementById('toolbar');
+const thumbs   = document.getElementById('thumbs');
+const statusbar= document.getElementById('statusbar');
+const loader   = document.getElementById('loader');
+const splash   = document.getElementById('splash');
+const shimmer  = document.getElementById('shimmer');
+const btnPrev  = document.getElementById('btnPrev');
+const btnNext  = document.getElementById('btnNext');
+const pgIn     = document.getElementById('pgIn');
+const pgTot    = document.getElementById('pgTot');
+const zoomLbl  = document.getElementById('zoomLbl');
+const mchip    = document.getElementById('mchip');
+const sbTxt    = document.getElementById('sbTxt');
+const btnFs    = document.getElementById('btnFs');
+
+/* ── b64 → Uint8 ── */
+function b64u8(b64) {
+  const s = atob(b64), a = new Uint8Array(s.length);
+  for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i);
+  return a;
+}
+
+/* ── Auto-load ── */
+window.addEventListener('DOMContentLoaded', async () => {
+  splash.style.display = 'none';
+  loader.style.display = 'flex';
+
+  try {
+    // Try embedded base64 first (local use)
+    if (typeof KERALA_PDF_B64 !== 'undefined' && KERALA_PDF_B64.length > 100) {
+      const s = atob(KERALA_PDF_B64), a = new Uint8Array(s.length);
+      for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i);
+      await initPDF(a);
+      return;
+    }
+    // Fetch from URL (hosted/Vercel deployment)
+    if (typeof PDF_URL !== 'undefined' && PDF_URL !== 'REPLACE_WITH_PDF_URL') {
+      const res  = await fetch(PDF_URL);
+      const buf  = await res.arrayBuffer();
+      await initPDF(new Uint8Array(buf));
+      return;
+    }
+    // Nothing available — show error
+    loader.style.display = 'none';
+    splash.style.display = 'flex';
+    document.querySelector('.splash-sub').textContent = 'PDF not found. Please check the URL configuration.';
+  } catch(e) {
+    loader.style.display = 'none';
+    splash.style.display = 'flex';
+    document.querySelector('.splash-sub').textContent = 'Error loading PDF: ' + e.message;
+  }
+});
+
+/* ── Init ── */
+async function initPDF(data) {
+  pdf = await pdfjsLib.getDocument({ data }).promise;
+  tot = pdf.numPages;
+  pgTot.textContent = tot;
+  pgIn.max = tot;
+
+  /* two slots */
+  ['s0','s1'].forEach(id => {
+    const d = document.createElement('div');
+    d.className = 'page-slot'; d.id = id;
+    viewer.appendChild(d);
+  });
+
+  await paint(1, 's0');
+  document.getElementById('s0').className = 'page-slot active';
+
+  loader.style.display  = 'none';
+  toolbar.style.display = 'flex';
+  thumbs.style.display  = 'flex';
+  statusbar.style.display = 'flex';
+
+  updateUI();
+  buildThumbs();
+}
+
+/* ── Paint page into slot ── */
+async function paint(n, id) {
+  const page = await pdf.getPage(n);
+  const vp   = page.getViewport({ scale: sc });
+  const cv   = document.createElement('canvas');
+  cv.width   = vp.width; cv.height = vp.height;
+  await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+  const slot = document.getElementById(id);
+  slot.innerHTML = ''; slot.appendChild(cv);
+
+  /* keep viewer scroll-height in sync with canvas */
+  viewer.style.minHeight = '';
+}
+
+/* ── Navigate ── */
+async function goTo(n, dir) {
+  if (busy || !pdf) return;
+  n = Math.max(1, Math.min(tot, n));
+  if (n === cur) return;
+  busy = true;
+
+  const s0 = document.getElementById('s0');
+  const s1 = document.getElementById('s1');
+
+  s1.className = 'page-slot ' + (dir === 'r' ? 'enter-r' : 'enter-l');
+  await paint(n, 's1');
+  s1.className = 'page-slot ' + (dir === 'r' ? 'enter-r' : 'enter-l');
+
+  /* shimmer */
+  shimmer.classList.remove('go'); void shimmer.offsetWidth; shimmer.classList.add('go');
+
+  /* scroll to top of viewer */
+  viewer.scrollTop = 0;
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    s0.className = 'page-slot ' + (dir === 'r' ? 'leave-l' : 'leave-r');
+    s1.className = 'page-slot active';
+  }));
+
+  await delay(580);
+
+  const cv = s1.querySelector('canvas');
+  s0.innerHTML = ''; if (cv) s0.appendChild(cv);
+  s0.className = 'page-slot active';
+  s1.innerHTML = ''; s1.className = 'page-slot';
+
+  cur = n; busy = false;
+  updateUI(); syncThumb(cur);
+}
+
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+/* ── UI update ── */
+function updateUI() {
+  btnPrev.disabled = cur <= 1;
+  btnNext.disabled = cur >= tot;
+  pgIn.value = cur;
+  const pct = Math.round(sc / BASE * 100);
+  zoomLbl.textContent = pct + '%';
+  const mi = cur - 1;
+  mchip.textContent = (mi >= 1 && mi <= 12)
+    ? MO[mi] + ' · ' + MO_ML[mi]
+    : (cur === 1 ? 'KERALA CALENDAR 2027' : 'PAGE ' + cur);
+  sbTxt.textContent = `Page ${cur} of ${tot} · Kerala Government Calendar 2027`;
+}
+
+/* ── Zoom ── */
+async function zoom(nsc) {
+  sc = Math.max(0.4, Math.min(5, nsc));
+  if (!pdf) return;
+  const s1 = document.getElementById('s1'); if (s1) s1.innerHTML = '';
+  await paint(cur, 's0');
+  document.getElementById('s0').className = 'page-slot active';
+  viewer.scrollTop = 0;
+  zoomLbl.textContent = Math.round(sc / BASE * 100) + '%';
+}
+
+document.getElementById('btnZoomIn') .addEventListener('click', () => zoom(sc + 0.2));
+document.getElementById('btnZoomOut').addEventListener('click', () => zoom(sc - 0.2));
+document.getElementById('btnFit')    .addEventListener('click', () => zoom(BASE));
+
+/* ── Nav ── */
+btnPrev.addEventListener('click', () => goTo(cur - 1, 'l'));
+btnNext.addEventListener('click', () => goTo(cur + 1, 'r'));
+pgIn.addEventListener('change', () => { const v=parseInt(pgIn.value); if(!isNaN(v)) goTo(v, v>cur?'r':'l'); });
+pgIn.addEventListener('keydown', e => { if(e.key==='Enter'){const v=parseInt(pgIn.value);if(!isNaN(v))goTo(v,v>cur?'r':'l');} });
+
+/* ── Keyboard ── */
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  switch(e.key) {
+    case 'ArrowRight': case 'PageDown': goTo(cur+1,'r'); break;
+    case 'ArrowLeft':  case 'PageUp':   goTo(cur-1,'l'); break;
+    case '+': case '=': zoom(sc+0.2); break;
+    case '-':           zoom(sc-0.2); break;
+    case 'f': case 'F': toggleFs(); break;
+    case 'Home': goTo(1,'l'); break;
+    case 'End':  goTo(tot,'r'); break;
+  }
+});
+
+/* ── Touch swipe ── */
+let tx = 0;
+viewer.addEventListener('touchstart', e => tx = e.changedTouches[0].screenX, {passive:true});
+viewer.addEventListener('touchend',   e => {
+  const d = tx - e.changedTouches[0].screenX;
+  if (Math.abs(d) > 50) goTo(d > 0 ? cur+1 : cur-1, d > 0 ? 'r' : 'l');
+}, {passive:true});
+
+/* ── Fullscreen ── */
+function toggleFs() {
+  if (!document.fullscreenElement) document.getElementById('shell').requestFullscreen().catch(()=>{});
+  else document.exitFullscreen();
+}
+btnFs.addEventListener('click', toggleFs);
+document.addEventListener('fullscreenchange', () => btnFs.textContent = document.fullscreenElement ? '✕' : '⛶');
+
+/* ── Thumbnails ── */
+async function buildThumbs() {
+  thumbs.innerHTML = '';
+  for (let p = 1; p <= tot; p++) {
+    const item = document.createElement('div');
+    item.className = 'thumb' + (p===1?' on':'');
+    item.dataset.p = p;
+    const pg = await pdf.getPage(p);
+    const vp = pg.getViewport({scale: 0.12});
+    const cv = document.createElement('canvas');
+    cv.width=vp.width; cv.height=vp.height;
+    await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+    const nm = document.createElement('div'); nm.className='thumb-n'; nm.textContent=p;
+    item.appendChild(cv); item.appendChild(nm);
+    item.addEventListener('click', () => goTo(+item.dataset.p, +item.dataset.p > cur ? 'r' : 'l'));
+    thumbs.appendChild(item);
+  }
+}
+function syncThumb(p) {
+  document.querySelectorAll('.thumb').forEach(t => t.classList.toggle('on', +t.dataset.p === p));
+  const on = thumbs.querySelector('.thumb.on');
+  if (on) on.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+}
+</script>
+</body>
+</html>
